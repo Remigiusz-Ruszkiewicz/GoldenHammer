@@ -1,0 +1,87 @@
+﻿@model IEnumerable<string>
+
+@{
+
+    ViewBag.Title = "Teścik";
+
+}
+
+
+
+<div class="jumbotron">
+
+    <h1>C# vs Ajax</h1>
+
+    @ViewBag.Message
+
+</div>
+
+<div class="col-lg-12">
+
+    <div class="col-lg-4">
+
+        @using (Html.BeginForm("AddName", "Home", FormMethod.Post))
+
+        {
+
+            @Html.Editor("animalName")
+
+            <button type="submit">Dodaj - nie ajax</button>
+
+
+
+        }
+
+    </div>
+
+    <div class="col-lg-5">
+
+        <button id="ajaxBtn">Dodaj - ajax</button>
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div id="list">
+
+        @Html.Action("ListPartial", Model)
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+
+    let url = '@Url.Action("Index", "Home")';
+
+    $('#ajaxBtn').on('click', () => {
+
+        $.ajax({
+
+            url: url,
+
+            data: {
+
+                animalName: $('#animalName').val()
+
+            },
+
+            success: function (result) {
+
+                     $("#list").html(result);
+
+                 }
+
+             })
+
+         })
+
+    </script>
+
+}
